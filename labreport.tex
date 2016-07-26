@@ -45,16 +45,17 @@ The accurate simulation of transient experiments typically requires thermal feed
 
 \section{Overview of TDKENO}
 
-TDKENO is a transient analysis tool that solves the time dependent Boltzmann transport equation with the explicit representation of delayed neutrons. It does so with the Improved Quasi-Static (IQS) Method, which allows for the flux profile vary in time.  The main different between the original Quasi-Static and IQS is the time derivative in IQS is handled explicitly with a backwards Euler approximation. 
+TDKENO is a transient analysis tool that solves the time dependent Boltzmann transport equation with the explicit representation of delayed neutrons. It does so with the Improved Quasi-Static (IQS) Method, which allows for the flux profile vary in time.  The main different between the original Quasi-Static and IQS is the time derivative in IQS is handled explicitly with a backwards Euler approximation \cite{goluoglu2001time}. 
 
-The basic assumption in IQS is that the total neutron flux can be factored into a shape and amplitude function \cite{goluoglu2001time}\cite{Gehin}.  The amplitude function captures the time dependence and takes on physical significance by being cast into the form of the point kinetics equations as follows:
+The basic assumption in IQS is that the total neutron flux can be factored into a shape and amplitude function \cite{Gehin}.  The amplitude function captures the time dependence and takes on physical significance by being cast into the form of the point kinetics equations as follows:
 
 \begin{equation}
     \label{eq:pt_kin}
     \frac{dP(t)}{dt} = \frac{\rho(t)-\bar{\beta}(t)}{\Lambda(t)} P(t) + \sum_{j=1}^{6} \lambda_jC_j(t) + \bar{Q}(t)
 \end{equation}
 
-where $P(t)$ is the amplitude function, $\rho$ is reactivity, $\bar{\beta}$ is the effective delayed neutron fraction, $\Lambda$ is the generation time, $\lambda_j$ is the decay constant per neutron group $j$, $C_j$ is the density of delayed neutron precursors for group j, and $\bar{Q}$ is a source.  
+where $P(t)$ is the amplitude function, $\rho$ is reactivity, $\bar{\beta}$ is the effective delayed neutron fraction, $\Lambda$ is the generation time, $\lambda_j$ is the decay constant per neutron group $j$, $C_j$ is the density of delayed neutron precursors for group j, and $\bar{Q}$ is a source.
+
  Reactivity, generation time, etc. (referred to as reactivity calculations) in TDKENO are found from their inner product definitions using a linearly interpolated flux shape and can be found in reference \cite{Bentley}.  Alternatively, these values may be computed during the Monte Carlo random walk but requires significant neutron histories to achieve low uncertainties \cite{Waddell}.  The shape function varies slowly in time and solves a modified version of the steady state transport equation.  The main modification here is an adjustment to the total cross section \cite{goluoglu2001time}\cite{Gehin}.  For this reason TDKENO calculations are limited to multi-group calculations, typically using 238 groups.  In TDKENO the shape equation is solved via Monte Carlo, but in principle the shape equation may be solved with deterministic methods.  Reference \cite{Shayesteh} provides an excellent rationale for implementing Monte Carlo techniques in flux shape calculations.  For the complete derivation of the IQS method used in TDKENO, one can refer to the appendix in reference \cite{Bentley}. 
  
  The implementation in TDKENO is a hybrid in nature because it relies on a Monte Carlo calculation for the flux shape and a deterministic one for the point kinetics.  The Monte Carlo calculation coming from a modified version of KENO (either V.a or VI).  One can think of TDKENO as a solver of the point kinetics equations that drives the time dependence and calls upon KENO to provide the flux shape at desired times. 
@@ -79,8 +80,13 @@ The advantage of varying these time scales is computational overhead when compar
  In its current formulation, TDKENO does not do this but rather lets the user define when a flux shape should be calculated.  This gives flexibility and may allow for computational savings as transients experience a rapid change in neutron distribution that is generally known about \emph{a posteriori} and rapidly come to a steady state. Therefore, a new calculation of the flux shape is not required.
 
 \section{Current Status of TDKENO}
-Feedback is incorporated into TDKENO with a simple empirical model from historical data for TREAT specific problems. This model calculates the reactivity from the yield and provides a correction factor to the reactivity.  This provides reasonable answers but seems to be way off in calculating the power vs. time.
-Quenching coefficients and several problem specific feedback methods were included in the past.  A simple adiabatic model was put in place for a benchmark problem in \cite{Bentley}.  This is the closest to a generalized feedback model as was every attempted.  
+Feedback is incorporated into TDKENO specific to a problem.  For example an empirical model from historical data is implemented for TREAT specific problems. This model calculates a correction factor for the reactivity from the yield as follows:
+\begin{equation}
+    \rho_{fb}(t) = \sum_{i = 0}^{3}a_i Y^i (t)
+\end{equation}
+where $\rho_{fb}(t)$ is the feedback reactivity, $Y^i (t)$ is the total yield in the core at time $t$, and $a_i$ is the empirical coefficient for a third order polynomial.
+  This provides reasonable answers but in previous simulations appears to differ significantly from experiment in calculating the peak power.
+Quenching coefficients and several problem specific feedback methods were included in the past.  A simple adiabatic model was put in place for a benchmark problem in \cite{Bentley}.  This is the closest to a generalized feedback model as was every attempted.  There is an obvious need for a more generalized feedback method and one that captures the physics better.  The IQS methodology complicates this with several time scales and complex iterative scheme.  
 
 \section{Method for Incorporating Thermal Feedback}
 
@@ -143,18 +149,31 @@ All of the pieces are close to completion for a rudimentary coupling of TDKENO o
 Future Work 
  
 1)	Build TDKENO within MOOSE.  Establish 3D mapping of CSG geometry to MOOSE meshes
+
 a.	Some advantages.  Would give ability to steadily improve thermal calculation on the MOOSE side. Clean implementation, as only data would be passed around.  
+
 b.	Disadvantages.  Application would be all export controlled if build under MOOSE.  Would have to build KENO and maybe CENTRM on the MOOSE platform, some “political” considerations here.  These are already difficult to do on the system SCALE established..  Lots of programming challenges here. Mapping still not entirely clear how to do robustly.
+
 c.	Could opt to build the KENO/CENTRM executable separately and only call them when needed.  The “TDKENO” portion, basically the point kinetics solver/flux modifier would be built under MOOSE.
-2)	Modify TDKENO to not utilize KENO for the flux shape calculation.  Instead base it on a code such as Serpent or OpenMC with established multi-physics interfaces.  
+
+2)	Modify TDKENO to not utilize KENO for the flux shape calculation.  Instead base it on a code such as Serpent or OpenMC with established multi-physics interfaces. 
+
 a.	Some disadvantages.  These codes are not as mature, do not all possess the same features as KENO.  For instance in performing the adjoint calculation.   Require lots of rewriting of KENO possibly new formulation of the governing equations.
-b.	Advantages.  Established multi-physics interfaces.  Lots of reference points and code already made for thermal feedback within MOOSE/each respective code. Modern codes may be easier to manage in the future.  
+
+b.	Advantages.  Established multi-physics interfaces.  Lots of reference points and code already made for thermal feedback within MOOSE/each respective code. Modern codes may be easier to manage in the future. 
+
 3)	To capture the temperature dependence the fission/power density may be tallied as a distribution based on Zernike polynomials.  Keep the coupling somewhat external.  The coupling would be simplified since only the Zernike
+
 a.	Disadvantages.  Further reliance on KENO.  Modifying KENO source code can be challenging.  A newer methodology and it is not widely implemented.
+
 b.	Advantages.  Construct almost exactly temperature distribution in great detail without discretizing the geometry from the CSG format.  Only have to pass around coefficients and read the temperatures from MOOSE.  Has been done in Serpent (in progress at INL), OpenMC but for Zernike polynomials that are orthogonal only circular domains.  
-i.	It is possible to have Zerneki polynomials orthogonal on polygons (for radial dependence) with greater than 3 sides.  It has been show in some optics papers from 2015.  The example given provided a general methodology for P>3 sided polygons and a specific case of an 8 sided polygon with equal length sides.  For the TREAT problem the 8-sided case would need to be modified for sides that are not all the same but with two sides.  It seems in principle possible.  This would be a great solution for the TREAT problem. Could obviously be extended to cylindrical fuel elements with some ease.  It doesn’t make this methodology super robust as it relies on having fuel elements with a specific geometry.  For instance pebble bed reactors would be incompatible with this implementation. 	
+
+i.	It is possible to have Zerneki polynomials orthogonal on polygons (for radial dependence) with greater than 3 sides.  It has been show in some optics papers from 2015.  The example given provided a general methodology for P>3 sided polygons and a specific case of an 8 sided polygon with equal length sides.  For the TREAT problem the 8-sided case would need to be modified for sides that are not all the same but with two sides.  It seems in principle possible.  This would be a great solution for the TREAT problem. Could obviously be extended to cylindrical fuel elements with some ease.  It doesn’t make this methodology super robust as it relies on having fuel elements with a specific geometry.  For instance pebble bed reactors would be incompatible with this implementation. 
+
 4)	Solving the heat conduction problem via Monte Carlo techniques.  There has been some work over the last 50 years on solving the heat conduction equation with a Monte Carlo approach.  Since the diffusion approximation in transport theory is mathematically equivalent to the heat conduction problem there are many analogous methods.  There is a fair amount of work published on this approach but nothing too mature.  Citing various computational difficulties and technical challenges. 
+
 a.	Disadvantages.  Computational time may be larger than deterministic.  Require significant programming from the ground up.  May be tied to a specific geometry introduced by the neutronics solver.  No ties with MOOSE.
+
 b.	Advantages.  Extremely robust!  Can solve problems with complex geometries with no discretization beyond the CSG description.  More novel research than existing coupling strategies?
 
 \section{Conclusions}
