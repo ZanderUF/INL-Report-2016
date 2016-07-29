@@ -66,7 +66,7 @@ where $P(t)$ is the amplitude function, $\rho$ is reactivity, $\bar{\beta}$ is t
  Reactivity, generation time, etc. in TDKENO are found from their inner product definitions using a linearly interpolated flux shape. Exact expressions can be found in reference \cite{Bentley}.  Alternatively, these values may be computed during the Monte Carlo random walk but requires significant neutron histories to achieve low uncertainties \cite{Waddell}.  The shape function varies slowly in time and solves a modified version of the steady state transport equation.  The main modification here is an adjustment to the total cross section \cite{goluoglu2001time}\cite{Gehin}.  For this reason TDKENO calculations are limited to multi-group calculations, typically using 238 groups.  In TDKENO the shape equation is solved via Monte Carlo, but in principle the shape equation may be solved with deterministic methods.  Reference \cite{Shayesteh} provides an excellent rationale for implementing Monte Carlo techniques for the flux shape calculation.  A complete derivation of the IQS method used in TDKENO can be found in reference \cite{Bentley}. 
  
  The implementation in TDKENO is a hybrid in nature because it relies on a Monte Carlo calculation for the flux shape and a deterministic one for the point kinetics.  The Monte Carlo calculation coming from a modified version of KENO (either V.a or VI).  One can think of TDKENO as a solver of the point kinetics equations that drives the time dependence and calls upon KENO to provide the flux shape at desired times. 
- \begin{figure}
+ \begin{figure}[h]
      \centering
      \includegraphics[width=8cm]{figures/tdkeno_flow.pdf}
      \caption{Simplified model of TDKENO calculation}
@@ -113,7 +113,7 @@ The fundamental issue with coupling TDKENO/MOOSE is the different approach to mo
 
 The first was to tally the fission density on top of the Monte Carlo geometry.  This is already possible in KENO.  The user defines a Cartesian grid, specifying the height, width, depth and number of points in-between.   The fission density is then found in each section of this Cartesian geometry.  The discretization would have to be done such that the grid defined would match up to fuel elements.  If done this would provide the fission density in each fuel element.  If the CSG geometry defined fuel elements did not align with the grid then fissions may be tallied over larger or smaller regions than they should.  The result would some fuel elements appearing to have artificially larger or lower temperatures.  While not ideal, in principle it is possible to define a grid that lines up well with the existing geometry.  To highlight complexity of the TREAT model we show a three dimensional portion of the core in Figure \ref{fig:treat3d}. Each fuel element is explicitly represented as well as control rods. 
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=10cm]{figures/big_to_small}
     \caption{The full TREAT core is given.  A control rod is shown larger to highlight the detail in the model.}
@@ -155,16 +155,16 @@ A pseudo-mesh was created based on the location of each fuel element in two dime
 \end{minipage}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=6.5cm]{figures/treat-fuel-elem.png}
-    \caption{Detailed look at a TREAT fuel element with a control rod}
-    \label{fig:treat2d}
-\end{figure}
+%\begin{figure}
+%    \centering
+%    \includegraphics[width=6.5cm]{figures/treat-fuel-%elem.png}
+%    \caption{Detailed look at a TREAT fuel element %with a control rod}
+%    \label{fig:treat2d}
+%\end{figure}
 
 	Next, we move on to working on the MOOSE side.  The goal is to solve the heat conduction problem with the heat source as the calculated power density. A heat conduction module is already available within MOOSE.  This was modified slightly to read in the text file produced from the KENO data and assign a different thermal conductivity value and power density at each quadrature point.  The mesh generated in MOOSE is created \emph{a priori} to have approximately the same dimensions in 2D as the TREAT problem.  The KENO data was really providing values on nodal points but the values needed to be assigned on quadrature points, which are slightly offset from the nodal points.  This was achieved by simply determining the absolutely closest point from the KENO data to the corresponding quadrature point. 
 	
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=8cm]{figures/nodalvsquad.png}
     \caption{Difference in nodal and quadrature mesh points}
@@ -176,10 +176,10 @@ On the MOOSE side the stationary heat conduction equation is solved as described
 \begin{equation}
     -\nabla \cdot k\nabla T - Q = 0
 \end{equation}
-with $k$ as the thermal conductivity in units of $\frac{W}{cm K}$  and $Q$ the power density in units of $\frac{W}{cm^3}$. The power density was calculated by multiplying the fission density from KENO by a $\kappa$ value of $3.11E^{-11} W/fission$. For fuel elements historical TREAT data is used for the thermal conductivity during heat-up (a different expression provides the thermal conductivity as the core cools).  This of course dependent on temperature so the following expression is evaluated at the given temperature.
+with $k$ as the thermal conductivity in units of $\frac{W}{cm K}$  and $Q$ the power density in units of $\frac{W}{cm^3}$. The power density was calculated by multiplying the fission density from KENO by a $\kappa$ value of $3.11 \times 10^{-11} W/fission$. For fuel elements historical TREAT data is used for the thermal conductivity during heat-up (a different expression provides the thermal conductivity as the core cools).  This of course dependent on temperature so the following expression is evaluated at the given temperature.
 
 \begin{equation}
-    k = 5.08449E^{-8} * T^2 - 1.942915E^{-4} * T + 2.816049E^{-1}
+    k = 5.08449 \times 10^{-8} * T^2 - 1.942915 \times 10^{-4} * T + 2.816049 \times 10^{-1}
     \label{cond}
 \end{equation}
 
@@ -190,7 +190,7 @@ Despite the results of this effort not yielding anything concrete it still shows
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=18cm]{figures/flowcharttdk.png}
+    \includegraphics[width=16cm]{figures/flowcharttdk.png}
     \caption{Proposed flow chart for the coupling of TDKENO to MOOSE.}
     \label{fig:flow}
 \end{figure}
@@ -206,71 +206,73 @@ In an effort to accomplish some kind of feedback a simple adiabatic heatup model
 In equation \ref{adiabatic} $\epsilon$ is defined as $\epsilon = \frac{1}{\rho C_p}$ with $rho$ as the density and $C_p$ as the heat capacity, $\kappa$ is the energy per fission, $\Sigma_f$ is the total fission cross section, $\Psi$ is the total angular flux, and $N$ is a normalization factor. For the heat capacity historical data is used for the TREAT problem.  Again this quantity is temperature dependent, so the following expression is evaluated before calculation.
 
 \begin{equation}
-    C_p(T) = -5.821E^{-10}*T^3 - 4.3694E^{-7}*T^2 + 2.8369E^{-3}*T - 1.009E^{-2}
+    C_p(T) = -5.821 \times 10^{-10}*T^3 - 4.3694\times 10^{-7}*T^2 + 2.8369\times 10^{-3}*T - 1.009\times 10^{-2}
 \end{equation}
 This expression is valid from $273K$ to $810K$. The density value too is chosen from historical data, representing the total fuel element.   The values range from $1.71 g/cm^3$ $1.76g/cm^3$ depending on the concentration of uranium within graphite. 
 
-In TDKENO this expression was found for each region, thus providing greater detail than with the heat conduction approach.  In KENO units are divided into regions.  There typically are several regions per fuel element and this number can be increased with input generator made for TREAT simulations.  
+In TDKENO this expression was found for each region in  geometry.  In KENO units are divided into several regions. For instance a user can specify several axial regions per fuel element and this number can be varied with input generator made for TREAT simulations.  
 
-The derivative was found with the backwards Euler method. The change in the temperature is added to a starting temperature of $300K$.  After each iteration the change in temperature for each region is found and added to the previous temperature. The temperatures are updated after each flux shape. The normalization factor ($N$) is based on the initial power of the system and is found by multiplying the fissionable volume by the power in and dividing that by the energy per fission. 
+The derivative in \label{adiabatic} was found with the backwards Euler method. The change in the temperature is added to a starting temperature of $300K$.  After each iteration the change in temperature for each region is found and added to the previous temperature. The temperatures are updated after each flux shape. The normalization factor ($N$) is based on the initial power of the system and is found by multiplying the fissionable volume by the power in and dividing that by the energy per fission. 
 
-Once again there was not enough time to perform a through analysis but the temperatures found either increased by a few degrees or several thousand degrees.  This implementation is done on the scale of the flux shape.  For the benchmark problem 14-A2 in \cite{Bentley} the temperatures were calculated on the scale of the point kinetics solves.  The method differed slightly in that the fission cross sections were broadened within TDKENO and prepared for the next iteration.  This problem is simple with only 2 energy groups thus making the broadening relatively simple.  The approach implemented for the TREAT problem found the temperatures on the flux shape time scale because using these  temperatures the cross sections could be evaluated by CENTRM/PMC.  Doing this method on the scale of the point kinetics would be too computationally expensive as CENTRM/PMC takes several minutes to run. The point kinetics calculations are solved hundreds of times between flux shapes.  Simpler methods may be implemented with TDKENO to broaden the cross sections but was not investigated thoroughly at this time.  This may allow for coupling on the point kinetics time scale.   
+Once again there was not enough time to perform a through analysis but the temperatures found either increased by a few degrees or several thousand degrees.  This implementation is done on the scale of the flux shape.  For the benchmark problem 14-A2 in \cite{Bentley} the temperatures were calculated on the scale of the point kinetics solves.  The method differed slightly in that the fission cross sections were broadened within TDKENO and prepared for the next iteration.  This problem is simple with only 2 energy groups thus making the broadening relatively simple.  The approach implemented for the TREAT problem found the temperatures on the flux shape time scale because using these  temperatures the cross sections could be evaluated by CENTRM/PMC.  Doing this method on the scale of the point kinetics would be too computationally expensive as CENTRM/PMC takes several minutes to run. The point kinetics calculations are solved hundreds of times between flux shapes.  Simpler methods may be implemented with TDKENO to broaden the cross sections but was not investigated thoroughly at this time.  Doing so may allow for coupling on the point kinetics time scale.   There is still work that needs to be done to get this method working.  For the TREAT specific problem feedback such as this will work for many of the transients. Future work should entail making this thermal feedback problem generalizable to problems beyond TREAT. 
 
 \section{Cross-Section Processing}
-No matter the method of coupling, to capture the affect of Doppler broadening,  cross sections must be updated to the new temperature. Several approaches are possible:
+No matter the method of coupling cross sections must be updated to the new temperature. Several approaches are possible:
 
-1)	Updating the cross sections by creating a new set each time with the CENTRM/PMC utility. Because CENTRM/PMC calculates a problem-dependent flux profile, it provides a rigorous cross-section treatment that explicitly handles effects from overlapping resonances, fissile material in the fuel and surrounding moderator, anisotropic scattering, and inelastic level scattering \cite{bowman2007overview}.  Basically, once MOOSE has calculated a new temperature for each fuel element this information is mapped back to the KENO input file.  Each units mixture has a new temperature.  This input file is then processed with CENTRM/PMC to create unit dependent cross sections  based on the new temperature.  In most cases the unit will correspond to a unique fuel element. The cross section is then saved and placed in the TDKENO working directory.  The cross section creation time takes several minutes typically but does add another layer of complexity to the problem.  
+1)	Updating the cross sections by creating a new set each time with the CENTRM/PMC utility within SCALE. Because CENTRM/PMC calculates a problem-dependent flux profile, it provides a rigorous cross-section treatment that explicitly handles effects from overlapping resonances, fissile material in the fuel and surrounding moderator, anisotropic scattering, and inelastic level scattering \cite{bowman2007overview}.  Basically, once MOOSE has calculated a new temperature for each fuel element this information is mapped back to the KENO input file.  Each units mixture has a new temperature.  The cross sections in multi-group are created from these mixutres.  This input file is then processed with CENTRM/PMC to create unit dependent cross sections  based on the new temperature.  In most cases the unit will correspond to a unique fuel element. The cross section is then saved and placed in the TDKENO working directory.  The cross section creation time takes several minutes typically and adds another portion of the code to be externally coupled.  
 
-2)  Instead of calculating the cross sections for each update of the temperature several cross sections for the same geometry may be made available before hand and interpolated within TDKENO to get as close to the new temperature as possible.  This requires knowing the range of temperatures the problem will be at.  For TREAT and many problems this is known.  The approach still is not as robust as the first likely not as accurate as it relies on interpolation.
+2)  Instead of calculating the cross sections for each update of the temperature several cross sections for the same geometry may be made available before hand and interpolated within TDKENO to get as close to the new temperature as possible.  This requires knowing the range of temperatures the problem will be at.  For TREAT and many problems this is the case.  The approach still is not as robust as the first and likely not as accurate.
 
-Other coupled codes rely on code-specific features to handle the temperature distribution.  For instance Serpent allows the cross sections to be updated on the fly with the Target Motion Sampling (TMS) temperature treatment \cite{viitanen2012explicit}. Additionally, Serpent may model a continuously varying density distributions \cite{leppanen2013modeling}.  The variation of density may be important in future problems so it is important to keep in mind.  
-OpenMC and MOOSE have been coupled as well.  The cross section updates are performed with an on-the-fly windowed multi-pole method for cross section Doppler broadening \cite{josey2016windowed}. This avoids interpolation of pre-generated cross sections or and weighting factors.  
+Briefly other codes methods will be summarized.  Other coupled codes rely on code-specific features to handle the temperature distribution.  For instance Serpent allows the cross sections to be updated on the fly with the Target Motion Sampling (TMS) temperature treatment \cite{viitanen2012explicit}. Additionally, Serpent may model a continuously varying density distribution \cite{leppanen2013modeling}.  The variation of density may be important in future problems so it is important to keep in mind.
 
-Methods in OpenMC and Serpent are indeed very useful but may not be feasible options with the current reliance on KENO for the flux shape.  Each of these cross section processing methods relies on intricate processes that are ingrained in each respective code.  Mimicking such approaches would require significant modifications to KENO.  
+OpenMC and MOOSE have been coupled as well.  The cross section updates are performed with an on-the-fly windowed multi-pole method for cross section Doppler broadening \cite{josey2016windowed}. This avoids interpolation of pre-generated cross sections or  weighting factors.  
 
-The MC21 Monte Carlo code implemented a clever "source" and "sink" approach where the user dictates how the heat flows in the problem on top of the existing CSG geometry \cite{griesheimer2008integrated}.  This requires lot of user pre-processing but requires no meshes or discritizing the geometry beyond what is already defined.     
+Methods in OpenMC and Serpent are indeed  useful but may not be feasible options as TDKENO  currently uses  on KENO for the flux shape.  Each of these cross section processing methods relies on intricate processes that are ingrained in each respective code.  Mimicking such approaches would require significant modifications to KENO.  
 
+%The MC21 Monte Carlo code implemented a clever "source" and "sink" approach where the user dictates %how the heat flows in the problem on top of the existing CSG geometry %\cite{griesheimer2008integrated}.  This requires lot of user pre-processing but requires no meshes %or discritizing the geometry beyond what is already defined.     
 
 
 \section{Future Work}
-All of the pieces are near  completion for a rudimentary coupling of TDKENO of MOOSE to capture  thermal affects.  Given the time constraints it was not possible to complete a robust method to couple TDKENO with MOOSE.  There are several different options that may be pursued in the future to develop a robust code to simulate transients with accurate thermal feedback. Several will be outlined below. 
+All of the pieces are near  completion for a rudimentary coupling of TDKENO of MOOSE.  Given the time constraints it was not possible to complete a robust coupling between TDKENO and MOOSE.  There are several different options that may be pursued in the future to develop a code to simulate transients with accurate thermal feedback. Several will be outlined below. 
 
 \subsection{Build TDKENO as a MOOSE App Explicitly}  
 A natural extension of the summer work would be to build TDKENO under the MOOSE framework.  This would require a robust 3D mapping strategy from CSG geometry to meshes MOOSE understands.  Presumably as MOOSE evolves it will become more robust and this may become easier.  Thus far it as proved challenging but it is out of the scope of possibilities.   
-There are several advantages to this method
-\begin{itemize}
-    \item The internal coupling makes the coupling easier to adapt and improve. 
-    \item As development progresses the solves on the MOOSE side may be made more complex to understand other phenomenon. For instance thermal expansion may be incorporated.  
-    \item Utilize other applications and modules within MOOSE to understand new physics. 
-\end{itemize}
-There are significant disadvantages to this approach:
+There are significant disadvantages to this approach.
 
 \begin{itemize}
-    \item May have to build some SCALE based programs within MOOSE. Not a requirement but would make the coupling a bit "cleaner".  It is difficult as it is to build the latest version of SCALE (6.2) with the build system created at ORNL. Definitely would be a challenge in itself to migrate parts of SCALE over.
-    Could opt to build the KENO/CENTRM executable separately and only call them when needed.  The “TDKENO” portion, basically the point kinetics solver/flux modifier would be built under MOOSE.
+    \item May have to build some SCALE based programs within MOOSE. Not a requirement but would make the coupling a bit "cleaner".  It is difficult as it is to build the latest version of SCALE (6.2) with the build system created at ORNL. Could opt to build the KENO/CENTRM executable separately and only call them when needed.  The "TDKENO" portion, basically the point kinetics solver/flux modifier, would be built under MOOSE.
     \item Mapping from a CSG geometry to MOOSE type meshes is non-trivial.  A large point of using Monte Carlo is to get around the mesh creation portion of a simulation. Looking through the literature there are almost no coupled codes with KENO because of challenges like this.   
 \end{itemize}
 
-\subsection{Modify TDKENO to utilize a different Monte Carlo solver for the flux shape}
-	In its current implementation TDKENO  calls upon a modified version of KENO to perform the flux shape.  The behavior is akin to an externally coupled code, with "TDKENO" driving the time dependence and calling KENO when it needs the flux shape. Presumably other codes could accomplish the same task.  One difficulty in choosing a code is many of the newer codes do not have the ability to perform an adjoint Monte Carlo calculation. In the  formulation of the governing TDKENO equations an adjoint calculation is performed and used as a weighting factor throughout.  Nevertheless there may be possibilities to modify the governing equations to get around this. For instance in Serpent it is not possible to perform an explicit adjoint calculation but can weight calculations with the adjoint by using the iterated fission probability and keeping track of the progeny of neutrons in the forward simulation.  The goal of implementing a different code for the flux shape would be to implement one with a multi-physics framework already established.  A second, possibly over ambitious goal is to adopt a new flux shape solver and look at implementing it in continuous energy.  Right now the formulation requires the flux shape be solved in multi-group, albeit typically 238 groups.  Continuous energy calculation of the flux shape would provide greater rigor in IQS.  
+Conversely, there are several advantages to this method.
+\begin{itemize}
+    \item The internal couping makes the code easier to adapt and improve. 
+    \item As development progresses the solves on the MOOSE side may be made more complex to understand other phenomenon. For instance thermal expansion may be incorporated.  
+    \item Would be able to compare with other codes that have adopted the MOOSE framework.  Comparisons would be more meaningful if the codes can be configured similarly. 
+\end{itemize}
+
+\subsection{Modify TDKENO to utilize a different Monte Carlo solver}
+	In its current implementation TDKENO  calls upon a modified version of KENO to perform the flux shape.  The behavior is akin to an externally coupled code, with "TDKENO" driving the time dependence and calling KENO when it needs the flux shape. Presumably other codes could accomplish the same task.  One difficulty in choosing a code is many of the newer codes do not have the ability to perform an adjoint Monte Carlo calculation. In the  formulation of the governing TDKENO equations an adjoint calculation is performed and used as a weighting factor throughout.  Nevertheless there may be possibilities to modify the governing equations to get around this. For instance in Serpent it is not possible to perform an explicit adjoint calculation but can weight calculations with the adjoint by using the iterated fission probability and keeping track of the progeny of neutrons in the forward simulation.  The goal of implementing a different code for the flux shape would be to implement one with a multi-physics framework already established.  A second, possibly over ambitious goal is to adopt a new flux shape solver and implement it in continuous energy.  Right now the formulation requires the flux shape be solved in multi-group, typically 238 groups.  Continuous energy calculation of the flux shape would provide greater rigor in IQS.  
 	
 	There are obviously several trade-offs in fundamentally modifying TDKENO that can be summarized in the following bullet points.
-	Some advantages.  
-	\begin{itemize}
-	\item Adopting a code that can easily interface with other physics codes makes coupling easier and more robust.  
-	\item More "modern" codes are in theory easier to craft for unique purposes such as IQS.  Modern coding practices are useful for testing new features and building across different platforms.  Currently, using KENO from SCALE 6.2 it has been difficult to build on many computers, requiring users to modify many portions of the build scripts. 
-	\end{itemize}		
+	
 	Some disadvantages.
 	\begin{itemize}
-	\item These codes are not as mature, do not all possess the same features as KENO.  For instance in the calculation of the adjoint. The cross section processing for creation of multi-group is excellent in SCALE and well tested (this could be side stepped by implementing a continuous energy calculation).
-	\item This would require significant rewriting of TDKENO.
+	\item These newer codes are not as mature and do not all possess the same features as KENO.  For instance in the calculation of the adjoint. Additionally, the cross section processing for creation of multi-group is excellent in SCALE and well tested (this could be side stepped by implementing a continuous energy calculation).
+	\item This would require significant rewriting of TDKENO.  
 	\item May have to re-derive some of the governing equations to account for differences in the flux shape solvers ability.
-	\item Implementing continuous energy would in itself be a large undertaking.  
+	\item Implementing continuous energy would in itself be a large undertaking.  Almost definitely would require re-defining the problem statement in IQS>  
 	\end{itemize}
-	  Require lots of rewriting of KENO possibly new formulation of the governing equations.
-
-\subsection{Continue using KENO but introduce functional expansion tallies}
-To get around complex mapping of geometries and discritazion of the Monte Carlo geometry the Functional Expansion Tally(FET) method may be introduced in KENO.  Here values of interest may be tallied and the distribution represented by well known polynomials.  This has been the method introduced in OpenMC with good results and recently in Serpent 2 with encouraging results.  More than 10 years ago FETs were implemented in MCNP4 \cite{griesheimer2004two} but with simpler polynomials. This would indicate its possible to do in KENO as well due to its similarities with MCNP. Both OpenMC and Serpent recreated radial distributions of power and temperature with Zernike polynomials  for cylindrical fuel elements. In the axial direction, Legendre polynomials are used. 
+	 Some advantages of this approach are enticing.
+	 
+	\begin{itemize}
+	\item Adopting a code that can easily interface with other physics codes makes coupling easier and more robust.  
+	\item More "modern" codes are in theory easier to craft for unique purposes such as IQS.  Modern coding practices are useful for testing new features and building across different platforms.  Currently, using KENO from SCALE 6.2 it has been difficult to build on many computers.
+	\item Creating an IQS method utilizing continuous energy would make it a state of the art transient solver.
+	\end{itemize}	
+	  
+\subsection{Continue using KENO but introduce Functional Expansion Tallies}
+To get around complex mapping of geometries and discretization of the Monte Carlo geometry the Functional Expansion Tally(FET) method may be introduced in KENO.  Here values of interest may be tallied and the distribution represented by well known polynomials.  This has been the method introduced in OpenMC with good results and recently in Serpent 2 with encouraging results.  More than 10 years ago FETs were implemented in MCNP4 \cite{griesheimer2004two} but with simpler polynomials. This would indicate its possible to do in KENO as well due to MCNP's similarities to KENO. Both OpenMC and Serpent recreated radial distributions of power and temperature with Zernike polynomials  for cylindrical fuel elements.  Several example Zernike polynomials are in Figure \ref{fig:zernike}. In the axial direction, Legendre polynomials are used. 
 
 \begin{figure}
     \centering
@@ -279,17 +281,15 @@ To get around complex mapping of geometries and discritazion of the Monte Carlo 
     \label{fig:zernike}
 \end{figure}
 
-Utilizing the traditional Zernike Polynomials works well on cylindrical fuel elements as they are only guaranteed to be orthogonal on circular domains.  However, for  TREAT simulations some of elements are not circular but are octagon like.  Using Zernike polynomials as implemented in OpenMC and Serpent may not represent the distributions exactly.  Fortunately a recent paper outlines a generalized method for mapping between circular to $p >3$ sided polygons \cite{ferreira2015orthogonal}.  In this paper the authors outline one case where they derive Zernike polynomials that are orthogonal on an octagon. For the TREAT problem the 8-sided case would need to be modified for sides that are not all the same but with two sides.  It seems in principle possible.  This would be a great solution for the TREAT problem. This implementation could have the option to work with cylindrical fuel elements with some ease.   
-
+Utilizing the traditional Zernike Polynomials works well on cylindrical fuel elements as they are only guaranteed to be orthogonal on circular domains.  However, for  TREAT simulations many of the fuel elements are not circular but are octagon like.  Using Zernike polynomials as implemented in OpenMC and Serpent may not represent the distributions exactly.  Fortunately a recent paper outlines a generalized method for mapping between circular to $p >3$ sided polygons \cite{ferreira2015orthogonal}.  In this paper the authors outline one case where they derive Zernike polynomials that are orthogonal on an octagon, several of these are provided in Figure \ref{fig:oct-fet}. For the TREAT problem the 8-sided case would need to be modified for sides that are not all the same but with every other side the equal.  It seems in principle possible.  Zernike polynomials for both circular and octagonal domains should be similar and would be implemented at the same time.  The user would then be able to choose which to use based on the governing problem.  
 \begin{figure}
     \centering
     \includegraphics[width=8cm]{figures/octogon-FET.png}
     \caption{Several examples of Zernike functions in an octagon \cite{ferreira2015orthogonal}}.
     \label{fig:oct-fet}
 \end{figure}
-
  
-There are some disadvantages to this approach:
+Some disadvantages to this approach are highlighted below.
 	\begin{itemize}
 	\item Further developing capabilities in KENO makes it difficult to adopt a new code in the future.
 	\item Modifying KENO source code may be more difficult than Serpent or OpenMC.
