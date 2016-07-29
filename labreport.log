@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.6.22)  28 JUL 2016 12:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.6.22)  29 JUL 2016 10:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -180,174 +180,185 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 41.
 
 
-LaTeX Warning: Citation `goluoglu2001time' on page 1 undefined on input line 49
+LaTeX Warning: Citation `goluoglu2001time' on page 1 undefined on input line 48
 .
 
 
-LaTeX Warning: Citation `Gehin' on page 1 undefined on input line 51.
+LaTeX Warning: Citation `Gehin' on page 1 undefined on input line 50.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 53.
+(Font)              <10.95> on input line 51.
 [1
 
 {/usr/local/texlive/2016basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
-LaTeX Warning: Citation `Bentley' on page 2 undefined on input line 60.
+LaTeX Warning: Citation `Bentley' on page 2 undefined on input line 65.
 
 
-LaTeX Warning: Citation `Waddell' on page 2 undefined on input line 60.
+LaTeX Warning: Citation `Waddell' on page 2 undefined on input line 65.
 
 
-LaTeX Warning: Citation `goluoglu2001time' on page 2 undefined on input line 60
+LaTeX Warning: Citation `goluoglu2001time' on page 2 undefined on input line 65
 .
 
 
-LaTeX Warning: Citation `Gehin' on page 2 undefined on input line 60.
+LaTeX Warning: Citation `Gehin' on page 2 undefined on input line 65.
 
 
-LaTeX Warning: Citation `Shayesteh' on page 2 undefined on input line 60.
+LaTeX Warning: Citation `Shayesteh' on page 2 undefined on input line 65.
 
 
-LaTeX Warning: Citation `Bentley' on page 2 undefined on input line 60.
+LaTeX Warning: Citation `Bentley' on page 2 undefined on input line 65.
 
-<figures/tdkeno_flow.pdf, id=16, 476.78125pt x 289.08pt>
+<figures/tdkeno_flow.pdf, id=13, 476.78125pt x 289.08pt>
 File: figures/tdkeno_flow.pdf Graphic file (type pdf)
 
 <use figures/tdkeno_flow.pdf>
-Package pdftex.def Info: figures/tdkeno_flow.pdf used on input line 65.
+Package pdftex.def Info: figures/tdkeno_flow.pdf used on input line 70.
 (pdftex.def)             Requested size: 227.62204pt x 138.01135pt.
 
-<figures/time_scale.pdf, id=17, 702.625pt x 157.58875pt>
+<figures/time_scale.pdf, id=14, 702.625pt x 157.58875pt>
 File: figures/time_scale.pdf Graphic file (type pdf)
 
 <use figures/time_scale.pdf>
-Package pdftex.def Info: figures/time_scale.pdf used on input line 74.
+Package pdftex.def Info: figures/time_scale.pdf used on input line 79.
 (pdftex.def)             Requested size: 284.52756pt x 63.81587pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-LaTeX Warning: Citation `Dulla' on page 2 undefined on input line 79.
+LaTeX Warning: Citation `Dulla' on page 2 undefined on input line 84.
 
 [2 <./figures/tdkeno_flow.pdf>]
 
-LaTeX Warning: Citation `Bentley' on page 3 undefined on input line 90.
+LaTeX Warning: Citation `Bentley' on page 3 undefined on input line 95.
 
 [3 <./figures/time_scale.pdf>] [4]
-<figures/treat_top_view.png, id=64, 310.761pt x 314.6154pt>
-File: figures/treat_top_view.png Graphic file (type png)
+<figures/big_to_small.jpg, id=65, 1209.51875pt x 652.4375pt>
+File: figures/big_to_small.jpg Graphic file (type jpg)
 
-<use figures/treat_top_view.png>
-Package pdftex.def Info: figures/treat_top_view.png used on input line 111.
-(pdftex.def)             Requested size: 284.52756pt x 288.06229pt.
- [5 <./figures/treat_top_view.png>]
-File: figures/treat_top_view.png Graphic file (type png)
+<use figures/big_to_small.jpg>
+Package pdftex.def Info: figures/big_to_small.jpg used on input line 117.
+(pdftex.def)             Requested size: 398.33858pt x 214.86699pt.
+ [5 <./figures/big_to_small.jpg>] [6]
+<figures/progression-mesh.png, id=72, 754.82pt x 1322.9425pt>
+File: figures/progression-mesh.png Graphic file (type png)
 
-<use figures/treat_top_view.png>
-Package pdftex.def Info: figures/treat_top_view.png used on input line 134.
-(pdftex.def)             Requested size: 284.52756pt x 288.06229pt.
-
-<figures/treat-fuel-elem.png, id=70, 513.92pt x 486.81876pt>
-File: figures/treat-fuel-elem.png Graphic file (type png)
-
-<use figures/treat-fuel-elem.png>
-Package pdftex.def Info: figures/treat-fuel-elem.png used on input line 141.
-(pdftex.def)             Requested size: 284.52756pt x 269.52649pt.
- [6] [7] [8 <./figures/treat-fuel-elem.png>]
-<figures/nodalvsquad.png, id=82, 368.37625pt x 352.31625pt>
+<use figures/progression-mesh.png>
+Package pdftex.def Info: figures/progression-mesh.png used on input line 159.
+(pdftex.def)             Requested size: 184.9429pt x 324.13385pt.
+ [7 <./figures/progression-mesh.png>]
+<figures/nodalvsquad.png, id=79, 368.37625pt x 352.31625pt>
 File: figures/nodalvsquad.png Graphic file (type png)
 
 <use figures/nodalvsquad.png>
-Package pdftex.def Info: figures/nodalvsquad.png used on input line 152.
-(pdftex.def)             Requested size: 284.52756pt x 272.12299pt.
- [9 <./figures/nodalvsquad.png>]
+Package pdftex.def Info: figures/nodalvsquad.png used on input line 168.
+(pdftex.def)             Requested size: 227.62204pt x 217.69731pt.
+ [8 <./figures/nodalvsquad.png>]
+<figures/large-with-mesh-temp.png, id=85, 813.0375pt x 701.62125pt>
+File: figures/large-with-mesh-temp.png Graphic file (type png)
 
-LaTeX Warning: Citation `bowman2007overview' on page 10 undefined on input line
- 160.
+<use figures/large-with-mesh-temp.png>
+Package pdftex.def Info: figures/large-with-mesh-temp.png used on input line 19
+0.
+(pdftex.def)             Requested size: 227.62204pt x 196.42049pt.
+
+<figures/flowcharttdk.png, id=86, 1011.78pt x 780.9175pt>
+File: figures/flowcharttdk.png Graphic file (type png)
+
+<use figures/flowcharttdk.png>
+Package pdftex.def Info: figures/flowcharttdk.png used on input line 199.
+(pdftex.def)             Requested size: 455.24408pt x 351.37387pt.
+
+Overfull \hbox (21.62408pt too wide) in paragraph at lines 199--200
+ [][] 
+ []
 
 
-LaTeX Warning: Citation `viitanen2012explicit' on page 10 undefined on input li
-ne 164.
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[9 <./figures/large-with-mesh-temp.png (PNG copy)>] [10 <./figures/flowcharttdk
+.png>]
+
+LaTeX Warning: Citation `Bentley' on page 11 undefined on input line 224.
 
 
-LaTeX Warning: Citation `leppanen2013modeling' on page 10 undefined on input li
-ne 164.
-
-
-LaTeX Warning: Citation `josey2016windowed' on page 10 undefined on input line 
-165.
-
-
-LaTeX Warning: Citation `griesheimer2008integrated' on page 10 undefined on inp
-ut line 169.
-
-[10]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 180.
-
- (/usr/local/texlive/2016basic/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 180.
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ú in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ù in font cmr10!
+LaTeX Warning: Citation `bowman2007overview' on page 11 undefined on input line
+ 229.
 
 [11]
 
-LaTeX Warning: Citation `griesheimer2004two' on page 12 undefined on input line
- 211.
+LaTeX Warning: Citation `viitanen2012explicit' on page 12 undefined on input li
+ne 233.
 
-<figures/zernike-circle.png, id=93, 602.25pt x 454.69875pt>
+
+LaTeX Warning: Citation `leppanen2013modeling' on page 12 undefined on input li
+ne 233.
+
+
+LaTeX Warning: Citation `josey2016windowed' on page 12 undefined on input line 
+235.
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 250.
+
+(/usr/local/texlive/2016basic/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 250.
+ [12]
+[13]
+
+LaTeX Warning: Citation `griesheimer2004two' on page 14 undefined on input line
+ 281.
+
+<figures/zernike-circle.png, id=105, 602.25pt x 454.69875pt>
 File: figures/zernike-circle.png Graphic file (type png)
 
 <use figures/zernike-circle.png>
-Package pdftex.def Info: figures/zernike-circle.png used on input line 215.
+Package pdftex.def Info: figures/zernike-circle.png used on input line 285.
 (pdftex.def)             Requested size: 284.52756pt x 214.82547pt.
 
 
-LaTeX Warning: Citation `ferreira2015orthogonal' on page 12 undefined on input 
-line 216.
+LaTeX Warning: Citation `ferreira2015orthogonal' on page 14 undefined on input 
+line 286.
 
 
-LaTeX Warning: Citation `ferreira2015orthogonal' on page 12 undefined on input 
-line 220.
+LaTeX Warning: Citation `ferreira2015orthogonal' on page 14 undefined on input 
+line 290.
 
-[12] <figures/octogon-fet.png, id=97, 712.6625pt x 417.56pt>
-File: figures/octogon-fet.png Graphic file (type png)
+<figures/octogon-FET.png, id=106, 712.6625pt x 417.56pt>
+File: figures/octogon-FET.png Graphic file (type png)
 
-<use figures/octogon-fet.png>
-Package pdftex.def Info: figures/octogon-fet.png used on input line 224.
+<use figures/octogon-FET.png>
+Package pdftex.def Info: figures/octogon-FET.png used on input line 293.
 (pdftex.def)             Requested size: 227.62204pt x 133.36707pt.
 
 
-LaTeX Warning: Citation `ferreira2015orthogonal' on page 13 undefined on input 
-line 225.
+LaTeX Warning: Citation `ferreira2015orthogonal' on page 14 undefined on input 
+line 294.
 
-[13 <./figures/zernike-circle.png>]
+[14 <./figures/zernike-circle.png>] [15 <./figures/octogon-FET.png>]
 
-LaTeX Warning: Citation `fraley1980monte' on page 14 undefined on input line 25
-1.
-
-
-LaTeX Warning: Citation `hoffman1976monte' on page 14 undefined on input line 2
-51.
+LaTeX Warning: Citation `fraley1980monte' on page 16 undefined on input line 31
+9.
 
 
-LaTeX Warning: Citation `haji1967solution' on page 14 undefined on input line 2
-51.
+LaTeX Warning: Citation `hoffman1976monte' on page 16 undefined on input line 3
+19.
 
 
-LaTeX Warning: Citation `song2007improved' on page 14 undefined on input line 2
-51.
+LaTeX Warning: Citation `haji1967solution' on page 16 undefined on input line 3
+19.
 
-[14 <./figures/octogon-fet.png>] [15]
+
+LaTeX Warning: Citation `song2007improved' on page 16 undefined on input line 3
+19.
+
+[16] [17]
 No file labreport.bbl.
-[16] (./labreport.aux)
+[18] (./labreport.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -356,29 +367,32 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 1839 strings out of 494447
- 26814 string characters out of 6166766
- 84149 words of memory out of 5000000
- 5159 multiletter control sequences out of 15000+600000
+ 1856 strings out of 494447
+ 27166 string characters out of 6166766
+ 84209 words of memory out of 5000000
+ 5173 multiletter control sequences out of 15000+600000
  9157 words of font info for 32 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 38i,6n,23p,1575b,222s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,6n,23p,1599b,224s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
 0.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mbx12.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmex10.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/amsfo
 nts/cm/cmmi10.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmmi8.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016basic/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on labreport.pdf (16 pages, 737238 bytes).
+msfonts/cm/cmmi6.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016basic/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016basic/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2016basic/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2016basic/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016basic/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2016basic/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on labreport.pdf (18 pages, 1008821 bytes).
 PDF statistics:
- 148 PDF objects out of 1000 (max. 8388607)
- 81 compressed objects within 1 object stream
+ 168 PDF objects out of 1000 (max. 8388607)
+ 94 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
